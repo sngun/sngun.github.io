@@ -81,6 +81,59 @@
     nav button:hover { background: var(--bg-subtle); color: var(--text-primary); }
     nav button.active { color: var(--blue); font-weight: 600; }
 
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: var(--header-h);
+      left: 0; right: 0;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column;
+      z-index: 99;
+      padding: 8px 0 16px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav button {
+      background: none;
+      border: none;
+      padding: 14px 24px;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      text-align: left;
+      transition: color 0.15s;
+    }
+    .mobile-nav button:hover { color: var(--text-primary); }
+    .mobile-nav button.active { color: var(--blue); font-weight: 700; }
+    @media (max-width: 640px) {
+      nav { display: none; }
+      .hamburger { display: flex; }
+    }
+
     /* ── MAIN ── */
     main {
       margin-top: var(--header-h);
@@ -577,8 +630,17 @@
       <button id="nav-blog" onclick="navigate('blog')">블로그</button>
       <button id="nav-contact" onclick="navigate('contact')">연락처</button>
     </nav>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="메뉴">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
+<div class="mobile-nav" id="mobile-nav">
+  <button id="mnav-about" class="active" onclick="navigate('about');closeMobileMenu()">소개</button>
+  <button id="mnav-service" onclick="navigate('service');closeMobileMenu()">서비스</button>
+  <button id="mnav-blog" onclick="navigate('blog');closeMobileMenu()">블로그</button>
+  <button id="mnav-contact" onclick="navigate('contact');closeMobileMenu()">연락처</button>
+</div>
 
 <!-- ───────────────── MAIN ───────────────── -->
 <main>
@@ -1126,27 +1188,42 @@ const posts = [
 
 let currentCategory = '전체';
 
+// ─── 햄버거 메뉴 ───
+function toggleMobileMenu() {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobile-nav').classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobile-nav').classList.remove('open');
+}
+
 // ─── 네비게이션 ───
 function navigate(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('nav button, .mobile-nav button').forEach(b => b.classList.remove('active'));
 
   if (page === 'about') {
     document.getElementById('page-about').classList.add('active');
     document.getElementById('nav-about').classList.add('active');
+    document.getElementById('mnav-about').classList.add('active');
   } else if (page === 'blog') {
     document.getElementById('page-blog').classList.add('active');
     document.getElementById('nav-blog').classList.add('active');
+    document.getElementById('mnav-blog').classList.add('active');
     renderPosts(currentCategory);
   } else if (page === 'service') {
     document.getElementById('page-service').classList.add('active');
     document.getElementById('nav-service').classList.add('active');
+    document.getElementById('mnav-service').classList.add('active');
   } else if (page === 'contact') {
     document.getElementById('page-contact').classList.add('active');
     document.getElementById('nav-contact').classList.add('active');
+    document.getElementById('mnav-contact').classList.add('active');
   } else if (page === 'detail') {
     document.getElementById('page-detail').classList.add('active');
     document.getElementById('nav-blog').classList.add('active');
+    document.getElementById('mnav-blog').classList.add('active');
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
