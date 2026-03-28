@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>김승언 공인회계사 | 세무정보 블로그</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #3182F6;
+      --blue-light: #EBF3FF;
+      --text-primary: #191F28;
+      --text-secondary: #6B7684;
+      --text-tertiary: #ADB5BD;
+      --border: #E5E8EB;
+      --bg: #FFFFFF;
+      --bg-subtle: #F9FAFB;
+      --header-h: 64px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text-primary);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--header-h);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+    }
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      height: 100%;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-primary);
+      cursor: pointer;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo-badge {
+      background: var(--blue);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 20px;
+      letter-spacing: 0;
+    }
+    nav { display: flex; gap: 4px; }
+    nav button {
+      background: none;
+      border: none;
+      padding: 8px 14px;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.15s, color 0.15s;
+    }
+    nav button:hover { background: var(--bg-subtle); color: var(--text-primary); }
+    nav button.active { color: var(--blue); font-weight: 600; }
+
+    /* ── MAIN ── */
+    main {
+      margin-top: var(--header-h);
+      min-height: calc(100vh - var(--header-h));
+    }
+
+    /* ── PAGES ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── HERO (자기소개) ── */
+    .about-hero {
+      background: linear-gradient(135deg, #EBF3FF 0%, #F0F4FF 100%);
+      padding: 80px 24px;
+    }
+    .about-hero-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 52px;
+    }
+    .avatar {
+      flex-shrink: 0;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      box-shadow: 0 8px 32px rgba(49,130,246,0.22);
+    }
+    .about-hero-text h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 6px;
+    }
+    .about-hero-text .title-tag {
+      display: inline-block;
+      background: var(--blue);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .about-hero-text p {
+      font-size: 20px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .about-body {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+    .section-label {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .career-list { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+    .career-item {
+      display: flex;
+      gap: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .career-item:last-child { border-bottom: none; }
+    .career-year {
+      flex-shrink: 0;
+      width: 80px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--blue);
+      padding-top: 2px;
+    }
+    .career-desc h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .career-desc p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+
+    .expertise-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .expertise-card {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+    .expertise-card .icon { font-size: 24px; margin-bottom: 10px; }
+    .expertise-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .expertise-card p { font-size: 12px; color: var(--text-secondary); }
+
+    .divider { height: 1px; background: var(--border); margin: 48px 0; }
+
+    /* ── BLOG LIST ── */
+    .blog-list-page { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+
+    .blog-page-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      margin-bottom: 28px;
+    }
+
+    .category-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0;
+    }
+    .cat-btn {
+      background: none;
+      border: none;
+      padding: 10px 4px;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .cat-btn:hover { color: var(--text-primary); }
+    .cat-btn.active { color: var(--blue); font-weight: 700; border-bottom-color: var(--blue); }
+
+    .post-grid { display: flex; flex-direction: column; gap: 0; }
+    .post-card {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+      border-radius: 0;
+    }
+    .post-card:hover .post-title { color: var(--blue); }
+    .post-card:first-child { padding-top: 0; }
+    .post-text { flex: 1; min-width: 0; }
+    .post-category-tag {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--blue);
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+    .post-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-bottom: 8px;
+      transition: color 0.15s;
+      line-height: 1.4;
+    }
+    .post-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+    .post-meta { font-size: 12px; color: var(--text-tertiary); }
+    .post-thumb {
+      flex-shrink: 0;
+      width: 140px;
+      height: 100px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg-subtle);
+    }
+    .post-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .thumb-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+    }
+
+    /* ── BLOG DETAIL ── */
+    .blog-detail-page { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin-bottom: 32px;
+      transition: color 0.15s;
+    }
+    .back-btn:hover { color: var(--blue); }
+
+    .detail-category-tag {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 14px;
+    }
+    .detail-title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .detail-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .detail-meta {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      margin-bottom: 32px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .detail-hero-img {
+      width: 100%;
+      height: 340px;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 40px;
+      background: linear-gradient(135deg, #3182F6 0%, #6DB3F2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .detail-hero-img .hero-emoji { font-size: 80px; }
+    .detail-body { font-size: 17px; line-height: 1.9; color: var(--text-primary); }
+    .detail-body h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 40px 0 16px;
+      letter-spacing: -0.4px;
+    }
+    .detail-body h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 28px 0 12px;
+    }
+    .detail-body p { margin-bottom: 20px; }
+    .detail-body ul, .detail-body ol {
+      margin: 16px 0 24px 24px;
+    }
+    .detail-body li { margin-bottom: 8px; }
+    .detail-body .callout {
+      background: var(--blue-light);
+      border-left: 4px solid var(--blue);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 24px 0;
+      font-size: 15px;
+    }
+    .detail-body .callout strong { color: var(--blue); }
+    .detail-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+    }
+    .detail-body th {
+      background: var(--bg-subtle);
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 700;
+      border: 1px solid var(--border);
+    }
+    .detail-body td {
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+    }
+
+    /* ── CONTACT ── */
+    .contact-page {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .contact-page h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 12px;
+    }
+    .contact-page .contact-desc {
+      font-size: 17px;
+      color: var(--text-secondary);
+      margin-bottom: 48px;
+      line-height: 1.7;
+    }
+    .contact-list { display: flex; flex-direction: column; gap: 16px; }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      text-decoration: none;
+      color: var(--text-primary);
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .contact-item:hover { border-color: var(--blue); background: var(--blue-light); }
+    .contact-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .contact-info { flex: 1; }
+    .contact-label { font-size: 12px; font-weight: 700; color: var(--blue); margin-bottom: 4px; }
+    .contact-value { font-size: 17px; font-weight: 600; }
+    .contact-arrow { color: var(--text-tertiary); font-size: 18px; }
+
+    /* ── SERVICE PAGE ── */
+    .svc-scroll-outer {
+      height: 380vh;
+    }
+    .svc-sticky {
+      position: sticky;
+      top: var(--header-h);
+      height: calc(100vh - var(--header-h));
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .svc-hero {
+      background: linear-gradient(135deg, #4D7EF7 0%, #3182F6 100%);
+      padding: 52px 60px 44px;
+      flex-shrink: 0;
+    }
+    .svc-hero h2 {
+      font-size: 36px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.8px;
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+    .svc-hero p {
+      font-size: 17px;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.7;
+    }
+    .svc-track-outer {
+      flex: 1;
+      background: #F0F4FF;
+      display: flex;
+      align-items: center;
+      padding: 0 60px;
+      overflow: hidden;
+    }
+    .svc-track {
+      display: flex;
+      gap: 20px;
+      will-change: transform;
+    }
+    .svc-card {
+      flex-shrink: 0;
+      width: 380px;
+      background: #fff;
+      border-radius: 20px;
+      padding: 36px 32px;
+      box-shadow: 0 4px 24px rgba(49,130,246,0.10);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 260px;
+    }
+    .svc-card-top {}
+    .svc-card-icon {
+      font-size: 36px;
+      margin-bottom: 16px;
+    }
+    .svc-card-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .svc-card-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .svc-card-tag {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--blue);
+      background: var(--blue-light);
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .svc-scroll-hint {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 13px;
+      color: var(--text-tertiary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      animation: bounceX 1.5s ease-in-out infinite;
+    }
+    @keyframes bounceX {
+      0%, 100% { transform: translateX(-50%) translateX(0); }
+      50% { transform: translateX(-50%) translateX(6px); }
+    }
+    @media (max-width: 640px) {
+      .svc-hero { padding: 36px 24px 28px; }
+      .svc-hero h2 { font-size: 26px; }
+      .svc-track-outer { padding: 0 24px; }
+      .svc-card { width: 280px; min-height: 220px; }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg-subtle);
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+    .footer-inner strong { color: var(--text-secondary); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .about-hero-inner { flex-direction: column; text-align: center; gap: 28px; }
+      .post-thumb { width: 100px; height: 76px; }
+      .detail-title { font-size: 24px; }
+      .detail-hero-img { height: 220px; }
+      .detail-hero-img .hero-emoji { font-size: 56px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ───────────────── HEADER ───────────────── -->
+<header>
+  <div class="header-inner">
+    <div class="logo" onclick="navigate('about')">
+      김승언 공인회계사
+      <span class="logo-badge">CPA</span>
+    </div>
+    <nav>
+      <button id="nav-about" class="active" onclick="navigate('about')">소개</button>
+      <button id="nav-service" onclick="navigate('service')">서비스</button>
+      <button id="nav-blog" onclick="navigate('blog')">블로그</button>
+      <button id="nav-contact" onclick="navigate('contact')">연락처</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ───────────────── MAIN ───────────────── -->
+<main>
+
+  <!-- ===== 자기소개 ===== -->
+  <div id="page-about" class="page active">
+    <div class="about-hero">
+      <div class="about-hero-inner">
+        <div class="avatar">👨‍💼</div>
+        <div class="about-hero-text">
+          <div class="title-tag">공인회계사 (CPA) · 前 EY한영 FSO 디렉터</div>
+          <h1>김승언</h1>
+          <p>대형 회계법인과 대기업 인하우스를 거친<br>금융·업종별 세무 전문가가<br>사업자에게 꼭 필요한 세무 정보를 전달합니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-body">
+      <div class="section-label">EXPERTISE</div>
+      <div class="expertise-grid">
+        <div class="expertise-card">
+          <div class="icon">🏦</div>
+          <h4>대부업 세무</h4>
+          <p>등록·미등록 대부업 과세구조, 이자소득 vs 사업소득, 대손금 처리, 법인 전환</p>
+        </div>
+        <div class="expertise-card">
+          <div class="icon">🍺</div>
+          <h4>주류업 세무</h4>
+          <p>주류 면허·세금계산서 의무, 종합소득세 도매·소매 구분, 절세 전략</p>
+        </div>
+        <div class="expertise-card">
+          <div class="icon">📱</div>
+          <h4>앱개발·IT 세무</h4>
+          <p>앱 창업 초기 세팅, 개인·법인 선택, 업종코드, R&D 세액공제</p>
+        </div>
+        <div class="expertise-card">
+          <div class="icon">🏛️</div>
+          <h4>금융세무·세무조사 대응</h4>
+          <p>은행·보험·증권 세무자문, 세무진단, 조사대응 PM (EY한영 14년)</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-label">CAREER</div>
+      <ul class="career-list">
+        <li class="career-item">
+          <div class="career-year">2025.3 ~</div>
+          <div class="career-desc">
+            <h3>비바리퍼블리카 (Toss) · Tax Team Leader</h3>
+            <p>법인세 자체 세무조정, 세무진단, 신사업 정산 세무 프로세스 수립, 부가가치세 경정청구 등 인하우스 세무 총괄.</p>
+          </div>
+        </li>
+        <li class="career-item">
+          <div class="career-year">2022.5 ~ 2025.2</div>
+          <div class="career-desc">
+            <h3>EY한영회계법인 세무본부 FSO · 디렉터</h3>
+            <p>인터넷전문은행·자산운용사 세무자문, 세무조사 대응 PM, 비상장주식 가치평가 등.</p>
+          </div>
+        </li>
+        <li class="career-item">
+          <div class="career-year">2021.1 ~ 2022.3</div>
+          <div class="career-desc">
+            <h3>이그린글로벌 · CFO (이사)</h3>
+            <p>투자유치 매터리얼 작성, 투자자 대응, 자금·회계·세무 재무업무 총괄.</p>
+          </div>
+        </li>
+        <li class="career-item">
+          <div class="career-year">2018.6 ~ 2020.12</div>
+          <div class="career-desc">
+            <h3>EY한영회계법인 세무본부 FSO · 매니저</h3>
+            <p>대형 보험사 세무진단, 은행 상시 세무자문, 은행·증권사 세무조사 대응.</p>
+          </div>
+        </li>
+        <li class="career-item">
+          <div class="career-year">2014.10 ~ 2018.5</div>
+          <div class="career-desc">
+            <h3>넥슨코리아 네오플 재무관리실 · 대리</h3>
+            <p>법인세 총괄, 정기 세무조사 대응, 법인세 감면 검증조사 대응, 정부보조금 수취·정산, 법인세 환급 5년치 성공.</p>
+          </div>
+        </li>
+        <li class="career-item">
+          <div class="career-year">2011.6 ~ 2014.9</div>
+          <div class="career-desc">
+            <h3>EY한영회계법인 세무본부 FSO · 시니어</h3>
+            <p>주요 금융그룹(은행·금융지주·증권·보험) 법인세 세무조정·신고, 세무진단, 조사대응, 세무실사.</p>
+          </div>
+        </li>
+        <li class="career-item">
+          <div class="career-year">2010.9</div>
+          <div class="career-desc">
+            <h3>공인회계사(CPA) 합격</h3>
+            <p>금융위원회 등록. 이후 EY한영 감사본부 CIP 실무연수(2010.12~2011.2).</p>
+          </div>
+        </li>
+        <li class="career-item">
+          <div class="career-year">2003 ~ 2011</div>
+          <div class="career-desc">
+            <h3>연세대학교 행정학 전공 · 경영학 부전공 졸업</h3>
+            <p>학점 3.14 / 4.5. 재학 중 공인회계사 시험 준비 및 합격.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== 블로그 리스트 ===== -->
+  <div id="page-blog" class="page">
+    <div class="blog-list-page">
+      <h1 class="blog-page-title">세무정보 블로그</h1>
+
+      <div class="category-tabs">
+        <button class="cat-btn active" data-cat="전체" onclick="filterCategory(this)">전체</button>
+        <button class="cat-btn" data-cat="대부업" onclick="filterCategory(this)">대부업</button>
+        <button class="cat-btn" data-cat="주류업" onclick="filterCategory(this)">주류업</button>
+        <button class="cat-btn" data-cat="앱개발업" onclick="filterCategory(this)">앱개발업</button>
+      </div>
+
+      <div class="post-grid" id="post-grid"></div>
+    </div>
+  </div>
+
+  <!-- ===== 블로그 상세 ===== -->
+  <div id="page-detail" class="page">
+    <div class="blog-detail-page">
+      <button class="back-btn" onclick="navigate('blog')">
+        ← 블로그 목록으로
+      </button>
+      <div id="detail-content"></div>
+    </div>
+  </div>
+
+  <!-- ===== 서비스 소개 ===== -->
+  <div id="page-service" class="page">
+    <div class="svc-scroll-outer">
+      <div class="svc-sticky">
+        <div class="svc-hero">
+          <h2>업종별 세무, 처음부터<br>제대로 설계합니다</h2>
+          <p>EY한영 14년·Toss Tax Team 경험의 공인회계사가<br>대부업·주류업·앱개발업 등 업종 특성에 맞는 세무 서비스를 직접 제공합니다.</p>
+        </div>
+        <div class="svc-track-outer">
+          <div class="svc-track" id="svc-track">
+
+            <div class="svc-card">
+              <div class="svc-card-top">
+                <div class="svc-card-icon">📚</div>
+                <div class="svc-card-title">기장 서비스</div>
+                <div class="svc-card-desc">매달 장부를 대신 정리하고, 부가가치세·종합소득세·법인세 신고까지 한 번에 처리합니다. 사장님은 사업에만 집중하세요.</div>
+              </div>
+              <span class="svc-card-tag">월 기장 · 세무신고 대리</span>
+            </div>
+
+            <div class="svc-card">
+              <div class="svc-card-top">
+                <div class="svc-card-icon">🔍</div>
+                <div class="svc-card-title">세무조사 대응</div>
+                <div class="svc-card-desc">EY한영 재직 시절 은행·보험·증권사 세무조사 대응 PM 경험을 바탕으로, 조사 통지부터 결정 이후 후속조치까지 함께합니다.</div>
+              </div>
+              <span class="svc-card-tag">사전 진단 · 소명 · 후속조치</span>
+            </div>
+
+            <div class="svc-card">
+              <div class="svc-card-top">
+                <div class="svc-card-icon">💡</div>
+                <div class="svc-card-title">절세 컨설팅</div>
+                <div class="svc-card-desc">업종별 필요경비 설계, 대손금 처리, 노란우산공제, 세액공제 활용까지. 합법적으로 세금을 줄이는 맞춤 절세 전략을 제시합니다.</div>
+              </div>
+              <span class="svc-card-tag">업종별 맞춤 절세 전략</span>
+            </div>
+
+            <div class="svc-card">
+              <div class="svc-card-top">
+                <div class="svc-card-icon">🏢</div>
+                <div class="svc-card-title">법인 전환 컨설팅</div>
+                <div class="svc-card-desc">개인사업자와 법인의 세율 차이, 대표 급여 설계, 전환 비용까지. 숫자로 시뮬레이션해 드리고 최적 시점과 방법을 제안합니다.</div>
+              </div>
+              <span class="svc-card-tag">절세 시뮬레이션 · 전환 설계</span>
+            </div>
+
+            <div class="svc-card">
+              <div class="svc-card-top">
+                <div class="svc-card-icon">🏦</div>
+                <div class="svc-card-title">대부업 세무 전문</div>
+                <div class="svc-card-desc">대부업 특유의 면세 구조, 이자소득·사업소득 구분, 대손금 처리, 등록기관 이관 대응까지 대부업에 특화된 세무를 제공합니다.</div>
+              </div>
+              <span class="svc-card-tag">대부업 · 대부중개업 전문</span>
+            </div>
+
+            <div class="svc-card">
+              <div class="svc-card-top">
+                <div class="svc-card-icon">🍺</div>
+                <div class="svc-card-title">주류업 세무 전문</div>
+                <div class="svc-card-desc">주류 면허와 세금계산서 수수 의무, 세무조사 선정 패턴, 폐업 시 잔존재화 과세까지 주류업 전반의 세무 리스크를 관리합니다.</div>
+              </div>
+              <span class="svc-card-tag">주류 도·소매업 전문</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 연락처 ===== -->
+  <div id="page-contact" class="page">
+    <div class="contact-page">
+      <h1>연락처</h1>
+      <p class="contact-desc">세무 상담이 필요하시면 언제든지 연락 주세요.<br>빠르게 답변 드리겠습니다.</p>
+      <div class="contact-list">
+        <a class="contact-item" href="tel:010-7170-9363">
+          <div class="contact-icon">📞</div>
+          <div class="contact-info">
+            <div class="contact-label">모바일</div>
+            <div class="contact-value">010-7170-9363</div>
+          </div>
+          <div class="contact-arrow">›</div>
+        </a>
+        <a class="contact-item" href="mailto:tax.semu.kim@gmail.com">
+          <div class="contact-icon">✉️</div>
+          <div class="contact-info">
+            <div class="contact-label">이메일</div>
+            <div class="contact-value">tax.semu.kim@gmail.com</div>
+          </div>
+          <div class="contact-arrow">›</div>
+        </a>
+        <a class="contact-item" href="https://instagram.com/sn_gun_k" target="_blank" rel="noopener">
+          <div class="contact-icon">📸</div>
+          <div class="contact-info">
+            <div class="contact-label">인스타그램</div>
+            <div class="contact-value">@sn_gun_k</div>
+          </div>
+          <div class="contact-arrow">›</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ───────────────── FOOTER ───────────────── -->
+<footer>
+  <div class="footer-inner">
+    <strong>김승언 공인회계사</strong> · 서울 서초구<br>
+    © 2025 Kim Seung-eon. All rights reserved.
+  </div>
+</footer>
+
+<!-- ───────────────── SCRIPT ───────────────── -->
+<script>
+// ─── 포스트 데이터 ───
+const posts = [
+  {
+    id: 1,
+    category: '대부업',
+    title: '대부업자가 꼭 알아야 할 이자소득세 원천징수 완벽 정리',
+    subtitle: '대주가 받는 이자에 대해 대부업자는 어떻게 세금을 처리해야 할까요?',
+    date: '2025. 3. 20.',
+    emoji: '🏦',
+    heroColor: 'linear-gradient(135deg, #1E3A5F 0%, #3182F6 100%)',
+    body: `
+<h2>대부업 이자소득세 원천징수란?</h2>
+<p>대부업자가 개인(거주자)에게 금전을 대여하고 이자를 지급받을 때, 해당 이자는 <strong>이자소득</strong>으로 분류됩니다. 이때 원천징수 의무는 대여자(돈을 빌린 사람)가 아닌 <strong>대부업자(채권자)</strong>에게 있는 것이 아니라, 이자를 지급하는 채무자 측에 있습니다.</p>
+
+<div class="callout">
+  <strong>핵심 포인트:</strong> 법인이 개인 대부업자에게 이자를 지급할 경우, 해당 법인이 25%의 원천징수를 해야 합니다.
+</div>
+
+<h2>세율 구조</h2>
+<table>
+  <tr><th>구분</th><th>세율</th><th>비고</th></tr>
+  <tr><td>일반 이자소득</td><td>14%</td><td>지방소득세 포함 15.4%</td></tr>
+  <tr><td>비영업대금 이익</td><td>25%</td><td>지방소득세 포함 27.5%</td></tr>
+  <tr><td>법인 간 이자</td><td>원칙 없음</td><td>법인세로 정산</td></tr>
+</table>
+
+<h2>대부업 등록의 세무적 장점</h2>
+<ul>
+  <li>대부업으로 등록하면 이자수익이 <strong>사업소득</strong>으로 분류되어 필요경비 공제 가능</li>
+  <li>대손충당금 손금 산입 가능</li>
+  <li>부가가치세는 <strong>면세</strong> (금융·보험 용역)</li>
+</ul>
+
+<h2>신고·납부 일정</h2>
+<p>원천징수한 세금은 징수일이 속하는 달의 다음 달 10일까지 관할 세무서에 납부해야 합니다. 반기별 납부 특례를 신청하면 1월~6월분은 7월 10일, 7월~12월분은 다음 해 1월 10일까지 납부 가능합니다.</p>
+`
+  },
+  {
+    id: 2,
+    category: '주류업',
+    title: '음식점 겸업 주류업의 부가세·주세 이중 과세 구조',
+    subtitle: '술을 팔면서 음식도 파는 사업자, 세금을 어떻게 내야 할까요?',
+    date: '2025. 3. 12.',
+    emoji: '🍺',
+    heroColor: 'linear-gradient(135deg, #FF8C00 0%, #FFD700 100%)',
+    body: `
+<h2>음식점과 주류업, 어떻게 다른가요?</h2>
+<p>음식점을 운영하면서 주류를 판매하는 경우, 대부분 <strong>과세 사업자</strong>로 분류됩니다. 주류는 부가가치세 과세 대상이며, 별도로 주세도 납부해야 하는 경우가 있습니다.</p>
+
+<div class="callout">
+  <strong>중요:</strong> 음식점 내에서 최종 소비자에게 주류를 판매하는 경우 주류 제조업과 달리 <strong>주세 납부 의무가 없습니다.</strong> 주세는 제조 또는 수입 단계에서 부과됩니다.
+</div>
+
+<h2>부가가치세 계산 구조</h2>
+<table>
+  <tr><th>항목</th><th>과세 여부</th><th>세율</th></tr>
+  <tr><td>음식 매출</td><td>과세</td><td>10%</td></tr>
+  <tr><td>주류 매출</td><td>과세</td><td>10%</td></tr>
+  <tr><td>농산물 등 면세 식재료 매입</td><td>면세</td><td>-</td></tr>
+</table>
+
+<h2>의제매입세액공제</h2>
+<p>음식점 사업자는 면세 농산물을 매입하여 과세 음식을 만들어 팔 때, <strong>의제매입세액공제</strong>를 받을 수 있습니다.</p>
+<ul>
+  <li>개인사업자(법인 외): 매입액 × 8/108</li>
+  <li>법인사업자: 매입액 × 6/106</li>
+  <li>공제 한도: 과세기간 과세표준의 50% (개인 음식점 기준)</li>
+</ul>
+
+<h2>주류 면허 주의사항</h2>
+<p>주류를 판매하려면 관할 세무서에서 <strong>일반 주류 소매업 면허</strong>를 취득해야 합니다. 면허 없이 주류를 판매할 경우 과태료 및 영업정지 처분을 받을 수 있습니다.</p>
+`
+  },
+  {
+    id: 3,
+    category: '앱개발업',
+    title: '앱 개발자를 위한 구글·애플 앱스토어 수익 세무처리',
+    subtitle: '해외 플랫폼 수익, 국내에서 어떻게 신고해야 하나요?',
+    date: '2025. 2. 28.',
+    emoji: '📱',
+    heroColor: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    body: `
+<h2>앱 수익의 종류</h2>
+<p>앱 개발자의 수익은 크게 세 가지로 나뉩니다:</p>
+<ul>
+  <li><strong>앱 내 결제(IAP)</strong>: 유료 아이템, 구독 수익</li>
+  <li><strong>광고 수익</strong>: AdMob, AdSense 등</li>
+  <li><strong>앱 판매 수익</strong>: 유료 앱 다운로드</li>
+</ul>
+
+<h2>원천징수 문제</h2>
+<p>구글이나 애플이 앱 수익을 정산할 때 국내 세법에 따른 원천징수를 하지 않는 경우가 많습니다. 이 경우 개발자는 <strong>종합소득세 신고 시 전액을 수입으로 포함</strong>해야 합니다.</p>
+
+<div class="callout">
+  <strong>핵심:</strong> 미국 법인(Google LLC 등)이 지급하는 경우, 한-미 조세조약에 따라 국내 원천징수 세율이 다를 수 있습니다. 사업소득의 경우 고정사업장이 없으면 미국에서 과세되지 않는 것이 원칙입니다.
+</div>
+
+<h2>부가가치세 처리</h2>
+<p>앱 수익이 전자적 용역에 해당하는 경우, 국외 공급자가 국내 최종 소비자에게 공급하는 구조이므로 <strong>구글/애플이 부가세를 대리납부</strong>합니다. 개발자가 별도로 부가세를 신고할 필요는 없습니다.</p>
+
+<h2>R&D 세액공제</h2>
+<p>앱 개발에 소요된 비용 중 연구·인력개발비에 해당하는 경우 <strong>연구개발 세액공제</strong>를 받을 수 있습니다.</p>
+<ul>
+  <li>중소기업: 당기 발생액의 25% (또는 증가분의 50%)</li>
+  <li>일반기업: 당기 발생액의 2~8%</li>
+</ul>
+`
+  },
+  {
+    id: 4,
+    category: '법인세',
+    title: '법인 설립 vs 개인사업자 – 절세 관점에서 무엇이 유리할까?',
+    subtitle: '매출 규모와 업종에 따라 달라지는 선택의 기준을 알아봅니다.',
+    date: '2025. 2. 15.',
+    emoji: '🏢',
+    heroColor: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
+    body: `
+<h2>세율 비교</h2>
+<table>
+  <tr><th>과세표준</th><th>개인(소득세)</th><th>법인(법인세)</th></tr>
+  <tr><td>~ 1,400만원</td><td>6%</td><td rowspan="3">9% (2억 이하)</td></tr>
+  <tr><td>1,400만 ~ 5,000만원</td><td>15%</td></tr>
+  <tr><td>5,000만 ~ 8,800만원</td><td>24%</td></tr>
+  <tr><td>8,800만 ~ 1.5억원</td><td>35%</td><td>19% (2억~200억)</td></tr>
+  <tr><td>1.5억 ~ 3억원</td><td>38%</td><td>19%</td></tr>
+  <tr><td>3억원 초과</td><td>40~45%</td><td>21~24%</td></tr>
+</table>
+
+<h2>법인이 유리한 경우</h2>
+<ul>
+  <li>연 순이익이 5,000만원을 초과하는 경우</li>
+  <li>사업 자금을 법인 내부에 유보하고 재투자할 계획이 있는 경우</li>
+  <li>가업 승계나 주식 양도를 계획하는 경우</li>
+</ul>
+
+<div class="callout">
+  <strong>주의:</strong> 법인으로 전환하면 대표이사 급여는 근로소득세가 부과됩니다. 배당으로 자금을 인출하면 배당소득세(14%)도 추가됩니다. 실질적인 절세 효과는 개별 상황에 따라 달라집니다.
+</div>
+
+<h2>개인사업자가 유리한 경우</h2>
+<ul>
+  <li>순이익이 크지 않고 사업 자금 대부분을 개인 생활비로 사용하는 경우</li>
+  <li>사업 규모가 작고 행정 비용(세무대리 비용 등)을 줄이고 싶은 경우</li>
+  <li>결손금이 발생하여 다른 소득과 통산이 필요한 경우</li>
+</ul>
+`
+  },
+  {
+    id: 5,
+    category: '절세전략',
+    title: '사업자 연말정산 – 놓치기 쉬운 공제 항목 5가지',
+    subtitle: '매년 수백만 원을 돌려받을 수 있는 합법적인 절세 방법.',
+    date: '2025. 1. 30.',
+    emoji: '💡',
+    heroColor: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+    body: `
+<h2>1. 노란우산공제 (소기업·소상공인 공제부금)</h2>
+<p>개인사업자라면 반드시 가입해야 할 제도입니다. 연간 최대 500만원까지 소득공제를 받을 수 있으며, 사업 폐업 시 퇴직금 역할도 합니다.</p>
+<ul>
+  <li>공제 한도: 사업소득 4,000만원 이하 → 500만원</li>
+  <li>사업소득 4,000만~1억원 → 300만원</li>
+  <li>사업소득 1억원 초과 → 200만원</li>
+</ul>
+
+<h2>2. 업무용 승용차 비용</h2>
+<p>법인 또는 성실신고 개인사업자의 경우 업무용 승용차를 취득하면 연간 800만원(감가상각비 포함 1,500만원) 한도로 비용 처리가 가능합니다. 운행일지를 반드시 작성해야 합니다.</p>
+
+<h2>3. 중소기업 특별세액감면</h2>
+<p>업종에 따라 법인세·소득세의 5~30%를 감면받을 수 있습니다. 소프트웨어 개발업, 도·소매업, 음식업 등 다양한 업종이 포함됩니다.</p>
+
+<div class="callout">
+  <strong>확인 필요:</strong> 감면을 받으려면 신청서를 세무신고 시 함께 제출해야 합니다. 사후에는 경정청구로 환급받을 수 있습니다.
+</div>
+
+<h2>4. 창업 중소기업 세액감면</h2>
+<p>수도권 과밀억제권역 외 지역에서 창업한 중소기업은 최초 5년간 법인세·소득세의 50~100% 감면을 받을 수 있습니다.</p>
+
+<h2>5. 고용 관련 세액공제</h2>
+<p>정규직 직원을 신규 채용하면 <strong>고용증가 인원 1인당 최대 1,550만원</strong>의 세액공제를 받을 수 있습니다 (청년 고용 기준, 수도권 외 중소기업).</p>
+`
+  },
+  {
+    id: 6,
+    category: '대부업',
+    title: '미등록 대부업의 세무 리스크 – 과세관청이 주목하는 포인트',
+    subtitle: '지인 간 금전 대차도 세금 문제가 생길 수 있습니다.',
+    date: '2025. 1. 10.',
+    emoji: '⚠️',
+    heroColor: 'linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%)',
+    body: `
+<h2>미등록 대부업이란?</h2>
+<p>대부업을 영업으로 하면서도 관할 지자체(시·도)에 등록하지 않은 경우를 말합니다. 가족이나 지인에게 반복적으로 돈을 빌려주고 이자를 받는 경우도 미등록 대부업으로 간주될 수 있습니다.</p>
+
+<div class="callout">
+  <strong>법적 제재:</strong> 미등록 대부업은 대부업법 위반으로 3년 이하 징역 또는 3,000만원 이하 벌금에 처해질 수 있습니다.
+</div>
+
+<h2>세무 리스크</h2>
+<ul>
+  <li><strong>이자소득 누락</strong>: 과세관청이 금융 거래내역을 통해 이자 수수를 적발할 경우, 본세 + 가산세(무신고 20%, 납부불성실 연 8.03%)가 부과됩니다.</li>
+  <li><strong>증여세 이슈</strong>: 무이자 또는 저율 이자로 금전을 빌려줬을 경우 적정이자율(현재 4.6%)과의 차이에 대해 증여세가 과세될 수 있습니다.</li>
+  <li><strong>차명 계좌 리스크</strong>: 타인 명의 계좌로 이자를 수취한 경우 금융실명법 위반과 세금 추징이 동시에 발생합니다.</li>
+</ul>
+
+<h2>합법적 대처 방법</h2>
+<p>금전 소비대차 계약서를 작성하고, 이자소득을 정직하게 신고하는 것이 장기적으로 가장 안전한 방법입니다. 대부 규모가 크다면 대부업 등록을 검토하세요.</p>
+`
+  },
+  {
+    id: 7,
+    category: '대부업',
+    title: '대부업 등록하면 세금이 어떻게 달라지나?',
+    subtitle: '일반 사업자와 다른 대부업의 세무 구조, 처음부터 제대로 이해하세요.',
+    date: '2025. 1. 10.',
+    emoji: '📋',
+    heroColor: 'linear-gradient(135deg, #1E3A5F 0%, #3182F6 100%)',
+    body: `
+<h2>대부업의 업종코드와 과세 분류</h2>
+<p>대부업은 국세청 업종분류상 금융업에 해당합니다. 일반적인 도소매·서비스업과는 과세 방식이 근본적으로 다릅니다.</p>
+<table>
+  <tr><th>구분</th><th>내용</th></tr>
+  <tr><td>업종코드</td><td>649101 (대부업), 649102 (대부중개업)</td></tr>
+  <tr><td>소득 유형</td><td>사업소득 (이자수익 포함)</td></tr>
+  <tr><td>부가가치세</td><td>면세 (금융용역 면세 대상)</td></tr>
+  <tr><td>주요 세금</td><td>종합소득세(개인) / 법인세(법인)</td></tr>
+  <tr><td>장부 의무</td><td>간편장부 또는 복식부기 (수입금액 기준)</td></tr>
+</table>
+<div class="callout"><strong>주의:</strong> 업종코드를 소매업(523xxx)이나 기타 서비스업으로 잘못 등록하면 부가세 과세 대상이 되어 불필요한 세금이 발생합니다.</div>
+
+<h2>일반 사업자 vs 대부업자 — 세무 차이</h2>
+<table>
+  <tr><th>구분</th><th>일반 사업자</th><th>대부업자</th></tr>
+  <tr><td>부가가치세</td><td>과세 (10%)</td><td>면세 (해당 없음)</td></tr>
+  <tr><td>소득 구분</td><td>사업소득</td><td>사업소득 (이자수입 포함)</td></tr>
+  <tr><td>주요 신고</td><td>부가세·종소세</td><td>종합소득세 (또는 법인세)</td></tr>
+  <tr><td>금융감독 보고</td><td>해당 없음</td><td>대부업 현황 보고 의무</td></tr>
+</table>
+
+<h2>자주 하는 실수 TOP 3</h2>
+<h3>실수 1. 업종코드 오기재</h3>
+<p>대부업 등록증이 있어도 사업자 등록 시 업종을 '대부업'으로 명확히 설정해야 합니다. 코드가 다르면 부가세 신고 의무가 생길 수 있습니다.</p>
+<h3>실수 2. 이자수입 전액을 장부에 기록하지 않음</h3>
+<p>현금으로 받은 이자를 장부에 누락하면 금융감독원 보고 자료와 세무신고 자료 간 불일치로 세무조사 빌미가 됩니다.</p>
+<h3>실수 3. 복식부기 의무자인데 간편장부 사용</h3>
+<p>직전 연도 수입금액 7,500만 원 이상이면 복식부기 의무자가 됩니다. 무시하고 간편장부를 쓰면 무기장 가산세가 부과됩니다.</p>
+
+<h2>절세 체크리스트</h2>
+<ul>
+  <li>사업자 등록 시 업종코드 649101 정확히 기재</li>
+  <li>이자수입 전액 통장 또는 장부에 기록 (현금 거래도 예외 없이)</li>
+  <li>대손금(떼인 돈) 발생 시 즉시 회계 처리 — 경비 인정 가능</li>
+  <li>법정 최고이자율(연 20%) 초과 이자는 수입으로 인식되지 않음에 유의</li>
+  <li>개인이라면 5월 종합소득세 신고 기한 준수</li>
+</ul>
+`
+  },
+  {
+    id: 8,
+    category: '주류업',
+    title: '주류 도소매업 사장님이 반드시 알아야 할 세금 상식 3가지',
+    subtitle: '일반 도소매업과 다른 주류업의 세금 구조, 모르면 가산세 맞습니다.',
+    date: '2025. 2. 20.',
+    emoji: '🍾',
+    heroColor: 'linear-gradient(135deg, #FF8C00 0%, #FFD700 100%)',
+    body: `
+<h2>① 주류업은 면허 구조부터 세금과 연결됩니다</h2>
+<p>주류도매업·주류소매업을 하려면 사업자등록만으로는 부족합니다. 「주류 면허 등에 관한 법률」에 따라 별도의 주류 판매업 면허를 취득해야 하며, 면허 종류에 따라 거래할 수 있는 상대방이 법으로 정해져 있습니다.</p>
+<ul>
+  <li><strong>종합주류도매업</strong> — 제조자·수입업자로부터 구입해 도매</li>
+  <li><strong>특정주류도매업</strong> — 탁주·약주·전통주 등 특정 주류만 도매</li>
+  <li><strong>주류소매업</strong> — 소비자에게 직접 판매</li>
+</ul>
+<div class="callout"><strong>주의:</strong> 주류 판매 관련 신고(영업 시작 신고)는 영업을 시작한 날로부터 <strong>30일 이내</strong>에 관할 세무서에 제출해야 합니다. 이 기간을 넘기면 면허 요건 위반으로 처분을 받을 수 있습니다.</div>
+
+<h2>② 주류 도매업에는 별도 제출 의무가 있습니다</h2>
+<p>주류도매업을 영위하는 사업자는 일반 부가세 신고와 별도로 <strong>「주류 매출 세금계산서 합계표」</strong>를 제출해야 합니다. 이를 모르는 주류 도매업자가 생각보다 많습니다.</p>
+<table>
+  <tr><th>구분</th><th>내용</th></tr>
+  <tr><td>제출 의무자</td><td>주류도매업자 (종합·특정)</td></tr>
+  <tr><td>제출 시기</td><td>부가세 신고 시 함께 제출</td></tr>
+  <tr><td>미제출 가산세</td><td>공급가액의 0.5%</td></tr>
+</table>
+
+<h2>③ 세금계산서 수수 의무 — 주류업이 훨씬 엄격합니다</h2>
+<p>주류업에서 세금계산서 미발급·위장발급은 일반 업종보다 훨씬 무거운 제재로 이어집니다. 위반 금액 비율에 따라 <strong>주류 면허 정지 또는 취소</strong>까지 이어질 수 있습니다.</p>
+<table>
+  <tr><th>위반 유형</th><th>제재</th></tr>
+  <tr><td>세금계산서 미발급</td><td>공급가액의 2% 가산세 + 면허 제재 가능</td></tr>
+  <tr><td>가공·위장 세금계산서 수수</td><td>면허 취소 사유 해당</td></tr>
+  <tr><td>무자료 거래</td><td>세무조사 우선 선정 대상</td></tr>
+</table>
+<div class="callout"><strong>핵심:</strong> 주류업에서 세금계산서는 단순한 세금 정산 수단이 아닙니다. 주류 유통 경로를 추적하는 핵심 증빙으로, 발급·수취 모두 빠짐없이 관리해야 합니다.</div>
+`
+  }
+];
+
+let currentCategory = '전체';
+
+// ─── 네비게이션 ───
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+
+  if (page === 'about') {
+    document.getElementById('page-about').classList.add('active');
+    document.getElementById('nav-about').classList.add('active');
+  } else if (page === 'blog') {
+    document.getElementById('page-blog').classList.add('active');
+    document.getElementById('nav-blog').classList.add('active');
+    renderPosts(currentCategory);
+  } else if (page === 'service') {
+    document.getElementById('page-service').classList.add('active');
+    document.getElementById('nav-service').classList.add('active');
+  } else if (page === 'contact') {
+    document.getElementById('page-contact').classList.add('active');
+    document.getElementById('nav-contact').classList.add('active');
+  } else if (page === 'detail') {
+    document.getElementById('page-detail').classList.add('active');
+    document.getElementById('nav-blog').classList.add('active');
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── 카테고리 필터 ───
+function filterCategory(btn) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentCategory = btn.dataset.cat;
+  renderPosts(currentCategory);
+}
+
+// ─── 포스트 목록 렌더링 ───
+function renderPosts(cat) {
+  const filtered = cat === '전체' ? posts : posts.filter(p => p.category === cat);
+  const grid = document.getElementById('post-grid');
+  grid.innerHTML = filtered.map(p => `
+    <div class="post-card" onclick="openPost(${p.id})">
+      <div class="post-text">
+        <div class="post-category-tag">${p.category}</div>
+        <div class="post-title">${p.title}</div>
+        <div class="post-subtitle">${p.subtitle}</div>
+        <div class="post-meta">${p.date}</div>
+      </div>
+      <div class="post-thumb">
+        <div class="thumb-placeholder" style="background:${p.heroColor}">${p.emoji}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── 포스트 상세 ───
+function openPost(id) {
+  const post = posts.find(p => p.id === id);
+  if (!post) return;
+
+  const detail = document.getElementById('detail-content');
+  detail.innerHTML = `
+    <div class="detail-category-tag">${post.category}</div>
+    <h1 class="detail-title">${post.title}</h1>
+    <p class="detail-subtitle">${post.subtitle}</p>
+    <div class="detail-meta">${post.date} · 김승언 공인회계사</div>
+    <div class="detail-hero-img" style="background:${post.heroColor}">
+      <span class="hero-emoji">${post.emoji}</span>
+    </div>
+    <div class="detail-body">${post.body}</div>
+  `;
+
+  navigate('detail');
+}
+
+// ─── 서비스 페이지 수평 스크롤 드라이버 ───
+window.addEventListener('scroll', function() {
+  const svcPage = document.getElementById('page-service');
+  if (!svcPage || !svcPage.classList.contains('active')) return;
+  const outer = document.querySelector('#page-service .svc-scroll-outer');
+  const track = document.getElementById('svc-track');
+  if (!outer || !track) return;
+  const headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 64;
+  const viewH = window.innerHeight - headerH;
+  const outerTop = outer.getBoundingClientRect().top + window.scrollY;
+  const totalScroll = outer.offsetHeight - viewH;
+  const scrolled = Math.max(0, window.scrollY - outerTop);
+  const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
+  const maxTranslate = track.scrollWidth - track.parentElement.offsetWidth;
+  track.style.transform = 'translateX(-' + (progress * maxTranslate) + 'px)';
+});
+
+// ─── 초기 렌더링 ───
+renderPosts('전체');
+</script>
+</body>
+</html>
